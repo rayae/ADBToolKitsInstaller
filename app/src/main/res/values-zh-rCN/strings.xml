@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ADB工具安装器</string>
+    <string name="check_to_install">选择安装项</string>
+    <string name="install">安装</string>
+    <string name="installing">安装中</string>
+    <string name="successful">成功</string>
+    <string name="failure">失败</string>
+    <string name="install_location">安装位置</string>
+    <string name="incorrect_installation_location">错误的安装位置</string>
+    <string name="dismiss">隐藏</string>
+
+</resources>

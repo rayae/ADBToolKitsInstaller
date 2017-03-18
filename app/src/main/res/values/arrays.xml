@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string-array name="locations">
+        <item>/system/bin</item>
+        <item>/system/xbin</item>
+        <item>/vendor/bin</item>
+        <item>…</item>
+    </string-array>
+</resources>

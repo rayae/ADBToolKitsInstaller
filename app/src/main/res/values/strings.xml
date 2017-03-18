@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ADB Tool Kits Installer</string>
+    <string name="check_to_install">Check to install</string>
+    <string name="adb" translatable="false">ADB</string>
+    <string name="fastboot" translatable="false">Fastboot</string>
+    <string name="install">Install</string>
+    <string name="installing">Installing</string>
+    <string name="successful">Successful</string>
+    <string name="failure">Failure</string>
+    <string name="install_location">Install Location</string>
+    <string name="incorrect_installation_location">Incorrect installation location</string>
+    <string name="dismiss">Dismiss</string>
+
+</resources>
