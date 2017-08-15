@@ -10,5 +10,8 @@
     <string name="install_location">安装位置</string>
     <string name="incorrect_installation_location">错误的安装位置</string>
     <string name="dismiss">隐藏</string>
+    <string name="specify_device">特殊设备(失败可尝试)</string>
+    <string name="adb_service">开启ADB服务(root)</string>
+    <string name="opening">开启中</string>
 
 </resources>
