@@ -55,13 +55,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <CheckBox
-                android:id="@+id/specify_device"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:checked="false"
-                android:text="@string/specify_device" />
-
             <Button
                 android:id="@+id/install"
                 android:layout_width="match_parent"
@@ -71,12 +64,34 @@
                 android:text="@string/install" />
 
             <Button
-                android:id="@+id/adb_service"
+                android:id="@+id/open_adb_service"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:onClick="adbService"
-                android:text="@string/adb_service" />
+                android:onClick="openAdbService"
+                android:text="@string/open_adb_service" />
+
+            <Button
+                android:id="@+id/close_adb_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:onClick="closeAdbService"
+                android:text="@string/close_adb_service" />
+            <Button
+                android:id="@+id/run_commands"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:onClick="runCommands"
+                android:text="@string/run_commands" />
+            <Button
+                android:id="@+id/clean_up"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:onClick="cleanUp"
+                android:text="@string/clean_up" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

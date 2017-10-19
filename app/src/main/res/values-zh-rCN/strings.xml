@@ -10,8 +10,16 @@
     <string name="install_location">安装位置</string>
     <string name="incorrect_installation_location">错误的安装位置</string>
     <string name="dismiss">隐藏</string>
-    <string name="specify_device">特殊设备(失败可尝试)</string>
-    <string name="adb_service">开启ADB服务(root)</string>
+    <string name="open_adb_service">开启ADB服务(root)</string>
     <string name="opening">开启中</string>
+    <string name="close_adb_service">关闭ADB服务(root)</string>
+    <string name="closing">关闭中</string>
+    <string name="run_commands">运行命令</string>
+    <string name="input_commands">输入命令</string>
+    <string name="run">运行</string>
+    <string name="running">运行中</string>
+    <string name="clean_up">清理(卸载)</string>
+    <string name="delete_installed_files_in_above_folders">Delete installed files in above folders</string>
+    <string name="cleaning">Cleaning</string>
 
 </resources>

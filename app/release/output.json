@@ -1,1 +1,1 @@
-[{"outputType":{"type":"APK"},"apkInfo":{"type":"MAIN","splits":[],"versionCode":2},"outputFile":{"path":"/home/crixec/AndroidStudioProjects/ADBToolKitsInstaller/app/release/app-release.apk"},"properties":{"packageId":"crixec.adbtoolkitsinstall","split":""}}]
+[{"outputType":{"type":"APK"},"apkInfo":{"type":"MAIN","splits":[],"versionCode":5},"path":"app-release.apk","properties":{"packageId":"crixec.adbtoolkitsinstall","split":"","minSdkVersion":"15"}}]

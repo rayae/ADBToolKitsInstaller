@@ -12,8 +12,17 @@
     <string name="install_location">Install Location</string>
     <string name="incorrect_installation_location">Incorrect installation location</string>
     <string name="dismiss">Dismiss</string>
-    <string name="specify_device">Specify device(try check it if you got errors)</string>
-    <string name="adb_service">Open ADB Service(root)</string>
+    <string name="open_adb_service">Open ADB Service(root)</string>
     <string name="opening">Opening</string>
+    <string name="close_adb_service">Close ADB Service(root)</string>
+    <string name="closing">Closing</string>
+    <string name="run_commands">Run Commands</string>
+    <string name="input_commands">Input commands</string>
+    <string name="run">Run</string>
+    <string name="running">Running</string>
+    <string name="run_with_root" translatable="false">ROOT</string>
+    <string name="clean_up">Clean up(Uninstall)</string>
+    <string name="delete_installed_files_in_above_folders">Delete installed files in above folders</string>
+    <string name="cleaning">Cleaning</string>
 
 </resources>
