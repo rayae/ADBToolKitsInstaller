@@ -1,0 +1,10 @@
+<resources>
+    <string name="title_donate_dialog_donation">DONATE</string>
+    <string name="text_donate_dialog_announcement">Hey, guy, welcome to my app.I am a young personal developer, I learning programming by myself, I enjoy writing codes.If you think this app is useful, may you can donate me for a coffee as a encouragement, thanks for your support.\n</string>
+    <string name="text_donate_dialog_contact_me">If you have any problems, please contact me : \n\nbavelee@foxmail.com\n</string>
+    <string name="title_donate_dialog_alipay">Alipay</string>
+    <string name="title_donate_dialog_wechat">Wechat</string>
+    <string name="title_donate_dialog_donate_methods">Methods of donation</string>
+    <string name="text_donate_dialog_qr_code_saved">QR Code saved</string>
+    <string name="title_donate_dialog_save_qr_code">Save QR code</string>
+</resources>

@@ -12,14 +12,25 @@
     <string name="dismiss">隐藏</string>
     <string name="open_adb_service">开启ADB服务(root)</string>
     <string name="opening">开启中</string>
-    <string name="close_adb_service">关闭ADB服务(root)</string>
+    <string name="stop_adb_service">关闭ADB服务(root)</string>
     <string name="closing">关闭中</string>
     <string name="run_commands">运行命令</string>
     <string name="input_commands">输入命令</string>
     <string name="run">运行</string>
     <string name="running">运行中</string>
-    <string name="clean_up">清理(卸载)</string>
-    <string name="delete_installed_files_in_above_folders">Delete installed files in above folders</string>
-    <string name="cleaning">Cleaning</string>
+    <string name="uninstall">卸载</string>
+    <string name="delete_installed_files_in_above_folders">从下列文件夹删除安装的文件</string>
+    <string name="uninstalling">卸载中。。。</string>
+    <string name="current_ip_address">当前 IP 地址 : </string>
+    <string name="current_adb_port">ADB 端口 :</string>
+    <string name="not_running">未运行</string>
+    <string name="current_adb_server_status">ADB 服务状态 : </string>
+    <string name="refresh_status">刷新状态</string>
+    <string name="adb_location">adb 二进制安装位置 :</string>
+    <string name="unknow_path">未安装</string>
+    <string name="fastboot_location">fastboot 二进制安装位置 : </string>
+    <string name="is_running">正在运行</string>
+    <string name="donate">捐赠(请我喝咖啡)</string>
+    <string name="developer_mode">开发者模式</string>
 
 </resources>

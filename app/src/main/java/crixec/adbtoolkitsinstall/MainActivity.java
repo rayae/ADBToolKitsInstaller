@@ -1,14 +1,17 @@
 package crixec.adbtoolkitsinstall;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,19 +24,91 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
 
-public class MainActivity extends Activity implements CompoundButton.OnCheckedChangeListener, ShellUtils.Result, AdapterView.OnItemSelectedListener {
+import cn.bavelee.donatedialog.DonateToMe;
+
+public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, ShellUtils.Result, AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     private CheckBox adbCheckBox;
     private CheckBox fastbootCheckBox;
-    private Button installButton;
     private static StringBuilder output = new StringBuilder();
     private Spinner spinner;
     private ArrayAdapter<String> adapter;
     private List<String> locations = new ArrayList<>();
+    private TextView adbServerStatus;
+    private TextView adbIpAddress;
+    private TextView adbPort;
+    private TextView adbBinary;
+    private TextView fastbootBinary;
+    private Buttons mButtons = new Buttons();
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.install: {
+                if (hasCheckedToolKits()) {
+                    new RunCommandsTask(this, obtainInstallCommands(adbCheckBox.isChecked(), fastbootCheckBox.isChecked(), locations.get(spinner.getSelectedItemPosition())), getString(R.string.installing)).execute();
+                }
+                break;
+            }
+            case R.id.uninstall: {
+                uninstall();
+                break;
+            }
+            case R.id.start_adb_service: {
+                List<String> commands = new ArrayList<>();
+                commands.add("setprop service.adb.tcp.port 5555");
+                commands.add("stop adbd");
+                commands.add("start adbd");
+                new RunCommandsTask(this, commands, getString(R.string.opening)).execute();
+                break;
+            }
+            case R.id.stop_adb_service: {
+                List<String> commands = new ArrayList<>();
+                commands.add("setprop service.adb.tcp.port 0");
+                commands.add("stop adbd");
+                new RunCommandsTask(this, commands, getString(R.string.opening)).execute();
+                break;
+            }
+            case R.id.run_commands: {
+                runCommands();
+                break;
+            }
+            case R.id.refersh: {
+                refreshAll();
+                break;
+            }
+        }
+    }
+
+    public void donate(View view) {
+        DonateToMe.show(this);
+    }
+
+    private class Buttons {
+        Button install;
+        Button uninstall;
+        Button startAdbServer;
+        Button stopAdbServer;
+        Button runCommands;
+        Button refresh;
+
+        private void setOnClickListener(View.OnClickListener clickListener) {
+            install.setOnClickListener(clickListener);
+            uninstall.setOnClickListener(clickListener);
+            stopAdbServer.setOnClickListener(clickListener);
+            startAdbServer.setOnClickListener(clickListener);
+            runCommands.setOnClickListener(clickListener);
+            refresh.setOnClickListener(clickListener);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +116,12 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         setContentView(R.layout.activity_main);
         adbCheckBox = (CheckBox) findViewById(R.id.adb);
         fastbootCheckBox = (CheckBox) findViewById(R.id.fastboot);
-        installButton = (Button) findViewById(R.id.install);
         spinner = (Spinner) findViewById(R.id.spinner);
+        adbServerStatus = findViewById(R.id.text_view_adb_server);
+        adbIpAddress = findViewById(R.id.text_view_ip_address);
+        adbPort = findViewById(R.id.text_view_adb_port);
+        adbBinary = findViewById(R.id.text_view_adb_location);
+        fastbootBinary = findViewById(R.id.text_view_fastboot_location);
         adbCheckBox.setOnCheckedChangeListener(this);
         fastbootCheckBox.setOnCheckedChangeListener(this);
         Collections.addAll(locations, getResources().getStringArray(R.array.locations));
@@ -50,35 +129,21 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setOnItemSelectedListener(this);
         spinner.setAdapter(adapter);
+        mButtons.install = findViewById(R.id.install);
+        mButtons.uninstall = findViewById(R.id.uninstall);
+        mButtons.startAdbServer = findViewById(R.id.start_adb_service);
+        mButtons.stopAdbServer = findViewById(R.id.stop_adb_service);
+        mButtons.runCommands = findViewById(R.id.run_commands);
+        mButtons.refresh = findViewById(R.id.refersh);
+        mButtons.setOnClickListener(this);
+        refreshAll();
     }
 
     private boolean hasCheckedToolKits() {
         return adbCheckBox != null && fastbootCheckBox != null && (adbCheckBox.isChecked() || fastbootCheckBox.isChecked());
     }
 
-    public void installButton(View view) {
-        if (hasCheckedToolKits()) {
-            new RunCommandsTask(this, obtainInstallCommands(adbCheckBox.isChecked(), fastbootCheckBox.isChecked(), locations.get(spinner.getSelectedItemPosition())), getString(R.string.installing)).execute();
-        }
-    }
-
-    public void openAdbService(View view) {
-        List<String> commands = new ArrayList<>();
-        commands.add("setprop service.adb.tcp.port 5555");
-        commands.add("stop adbd");
-        commands.add("start adbd");
-        new RunCommandsTask(this, commands, getString(R.string.opening)).execute();
-    }
-
-    public void closeAdbService(View view) {
-        List<String> commands = new ArrayList<>();
-        commands.add("setprop service.adb.tcp.port 0000");
-        commands.add("stop adbd");
-        new RunCommandsTask(this, commands, getString(R.string.opening)).execute();
-
-    }
-
-    public void runCommands(View view) {
+    public void runCommands() {
         final View dialogView = getLayoutInflater().inflate(R.layout.layout_input, null, false);
         final EditText editText = (EditText) dialogView.findViewById(R.id.editText);
         final CheckBox checkBox = (CheckBox) dialogView.findViewById(R.id.checkbox);
@@ -107,59 +172,60 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         return commands;
     }
 
-    public void cleanUp(View view) {
+    public void uninstall() {
         StringBuilder cleanablePath = new StringBuilder();
         final String[] locations = getResources().getStringArray(R.array.locations);
         cleanablePath.append(getString(R.string.delete_installed_files_in_above_folders)).append("\n\n").append(locations[0]).append("\n")
-        .append(locations[1]).append("\n")
-        .append(locations[2]).append("\n");
-        new AlertDialog.Builder(this).setTitle(R.string.clean_up)
+                .append(locations[1]).append("\n")
+                .append(locations[2]).append("\n");
+        new AlertDialog.Builder(this).setTitle(R.string.uninstall)
                 .setMessage(cleanablePath)
-        .setNeutralButton(android.R.string.cancel, null)
-        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                List<String> commands = new ArrayList<>();
-                commands.add(obtainCommand(locations[0]));
-                commands.add(obtainCommand(locations[1]));
-                commands.add(obtainCommand(locations[2]));
-                commands.add("echo === CLEAN UP ===");
-                new RunCommandsTask(MainActivity.this, commands, getString(R.string.cleaning)).execute();
-            }
-            private String obtainCommand(String location){
-                return "rm -f " + location + "/adb " + location + "/fastboot 2>>/dev/null";
-            }
-        }).setCancelable(false)
-        .show();
+                .setNeutralButton(android.R.string.cancel, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        List<String> commands = new ArrayList<>();
+                        commands.add(obtainCommand(locations[0]));
+                        commands.add(obtainCommand(locations[1]));
+                        commands.add(obtainCommand(locations[2]));
+                        new RunCommandsTask(MainActivity.this, commands, getString(R.string.cleaning)).execute();
+                    }
+
+                    private String obtainCommand(String location) {
+                        return "rm -f " + location + "/adb " + location + "/fastboot 2>>/dev/null";
+                    }
+                }).setCancelable(false)
+                .show();
     }
 
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        installButton.setEnabled(hasCheckedToolKits());
+        mButtons.install.setEnabled(hasCheckedToolKits());
     }
 
     @Override
     public void onStdout(String text) {
-        output.append(text).append("\n");
-        Log.i("ADBToolKitsInstaller", text);
+        output.append("[Stdout] ").append(text).append("\n");
+        Log.i("Stdout", text);
     }
 
     @Override
     public void onStderr(String text) {
-        output.append(text).append("\n");
-        Log.i("ADBToolKitsInstaller", text);
+        output.append("[Stderr] ").append(text).append("\n");
+        Log.i("Stderr", text);
     }
 
     @Override
     public void onCommand(String command) {
-        output.append("==> " + command).append("\n");
-        Log.i("ADBToolKitsInstaller", command);
+        output.append("[Run command] ").append(command).append("\n");
+        Log.i("Run command => ", command);
     }
 
     @Override
     public void onFinish(int resultCode) {
-        output.append("======\nexited with code ").append(resultCode).append("\n======\n").append("\n");
+        if (resultCode != 0)
+            output.append("======\nexited with code ").append(resultCode).append("\n======\n").append("\n");
     }
 
     @Override
@@ -199,7 +265,66 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         spinner.setSelection(0);
     }
 
-    private static class RunCommandsTask extends AsyncTask<Void, Void, Boolean> {
+    public void refreshAll() {
+        adbIpAddress.setText(getLocalIpAddress());
+        String isRunning = getString(R.string.is_running);
+        String notRunning = getString(R.string.not_running);
+        adbServerStatus.setText(ShellUtils.exec("ps|grep adbd", null, true) == 0 ? isRunning : notRunning);
+        adbPort.setText(ShellUtils.execSynchronizedCommand("getprop service.adb.tcp.port"));
+        adbBinary.setText(linuxWhich("adb"));
+        fastbootBinary.setText(linuxWhich("fastboot"));
+    }
+
+    private String linuxWhich(String param) {
+        String systemPath = System.getenv("PATH");
+        String[] pathDirs = systemPath.split(File.pathSeparator);
+        for (String pathDir : pathDirs) {
+            File file = new File(pathDir, param);
+            if (file.isFile()) {
+                return file.getPath();
+            }
+        }
+        return getString(R.string.unknow_path);
+    }
+
+    public String getLocalIpAddress() {
+        try {
+            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
+                NetworkInterface intf = en.nextElement();
+                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
+                    InetAddress inetAddress = enumIpAddr.nextElement();
+                    if (!inetAddress.isLoopbackAddress() && !inetAddress.isLinkLocalAddress() && inetAddress.isSiteLocalAddress()) {
+                        return inetAddress.getHostAddress();
+                    }
+                }
+            }
+        } catch (SocketException ex) {
+            ex.printStackTrace();
+        }
+        return "0.0.0.0";
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.developer_mode) {
+            try {
+                Intent intent = new Intent();
+                intent.setClassName("com.android.settings", "com.android.settings.DevelopmentSettings");
+                startActivity(intent);
+            } catch (Exception ignore) {
+
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private class RunCommandsTask extends AsyncTask<Void, Void, Boolean> {
         private List<String> mCommands;
         private ProgressDialog dialog;
         private AlertDialog.Builder dialogBuilder;
@@ -210,6 +335,7 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         public RunCommandsTask(Context context, List<String> commands, String title) {
             this(context, commands, title, true);
         }
+
         public RunCommandsTask(Context context, List<String> commands, String title, boolean runWithRoot) {
             mCommands = commands;
             this.mTitle = title;
@@ -254,6 +380,7 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
             textView.setText(output.toString());
             dialogBuilder.setCancelable(true);
             dialogBuilder.show();
+            refreshAll();
         }
 
     }

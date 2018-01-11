@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/text_donate_dialog_announcement"
+        android:textColor="#0D0B1B"
+        android:typeface="monospace" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/text_donate_dialog_contact_me"
+        android:textColor="#3D3D3B"
+        android:textColorHighlight="#4472CA"
+        android:textIsSelectable="true"
+        android:textStyle="bold"
+        android:typeface="monospace" />
+</LinearLayout>

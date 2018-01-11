@@ -12,17 +12,31 @@
     <string name="install_location">Install Location</string>
     <string name="incorrect_installation_location">Incorrect installation location</string>
     <string name="dismiss">Dismiss</string>
-    <string name="open_adb_service">Open ADB Service(root)</string>
+    <string name="open_adb_service">Start ADB Service(root)</string>
     <string name="opening">Opening</string>
-    <string name="close_adb_service">Close ADB Service(root)</string>
+    <string name="star_adb_service">Close ADB Service(root)</string>
     <string name="closing">Closing</string>
     <string name="run_commands">Run Commands</string>
     <string name="input_commands">Input commands</string>
     <string name="run">Run</string>
     <string name="running">Running</string>
     <string name="run_with_root" translatable="false">ROOT</string>
-    <string name="clean_up">Clean up(Uninstall)</string>
+    <string name="uninstall">Uninstall</string>
     <string name="delete_installed_files_in_above_folders">Delete installed files in above folders</string>
     <string name="cleaning">Cleaning</string>
+    <string name="current_ip_address">Current IP address : </string>
+    <string name="unknow_address">0.0.0.0</string>
+    <string name="unknow_port">0</string>
+    <string name="current_adb_port">ADB port :</string>
+    <string name="not_running">not running</string>
+    <string name="current_adb_server_status">ADB server status : </string>
+    <string name="refresh_status">Refresh status</string>
+    <string name="adb_location">Installed adb binary :</string>
+    <string name="unknow_path">not installed</string>
+    <string name="fastboot_location">Installed fastboot binary : </string>
+    <string name="is_running">is running</string>
+    <string name="donate">Donate(buy me a coffee)</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="developer_mode">Dev mode</string>
 
 </resources>

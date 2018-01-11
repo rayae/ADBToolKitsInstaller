@@ -1,21 +1,27 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.2"
     defaultConfig {
         applicationId "crixec.adbtoolkitsinstall"
         minSdkVersion 15
-        targetSdkVersion 25
-        versionCode 5
-        versionName "2.1"
+        targetSdkVersion 27
+        versionCode 6
+        versionName "2.2"
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            outputFileName = "ADBInstaller_${defaultConfig.versionName}.apk"
+        }
     }
     buildTypes {
         release {
-            zipAlignEnabled true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets.main{
+    sourceSets.main {
         jni.srcDirs = []
         jniLibs.srcDir "src/main/libs"
     }
@@ -24,6 +30,7 @@ android {
         abortOnError false
     }
 }
-
 dependencies {
+    implementation 'com.android.support:appcompat-v7:27.0.2'
+    implementation project(':donatedialog')
 }

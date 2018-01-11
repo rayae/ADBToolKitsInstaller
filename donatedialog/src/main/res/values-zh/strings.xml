@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_donate_dialog_donation">捐赠</string>
+    <string name="text_donate_dialog_announcement">嗨，你好，欢迎使用我的app，我是一个年轻的个人开发者，我正在自学编程，我享受写代码的过程。如果你觉得这个程序很有用，可以给我买我一杯咖啡作为鼓励吗，谢谢你的支持。\n</string>
+    <string name="text_donate_dialog_contact_me">有任何问题，请联系我 : \n\nbavelee@foxmail.com\n</string>
+    <string name="title_donate_dialog_alipay">支付宝</string>
+    <string name="title_donate_dialog_wechat">微信</string>
+    <string name="title_donate_dialog_donate_methods">捐赠方式</string>
+    <string name="text_donate_dialog_qr_code_saved">二维码已保存</string>
+    <string name="title_donate_dialog_save_qr_code">保存二维码</string>
+</resources>

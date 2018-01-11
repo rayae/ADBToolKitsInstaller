@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ADBToolKitsInstaller.iml" filepath="$PROJECT_DIR$/ADBToolKitsInstaller.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/donatedialog/donatedialog.iml" filepath="$PROJECT_DIR$/donatedialog/donatedialog.iml" />
     </modules>
   </component>
 </project>

@@ -4,6 +4,8 @@ package crixec.adbtoolkitsinstall;
  * Created by crixec on 17-3-18.
  */
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -153,5 +155,24 @@ public class ShellUtils {
 
     public static int execRoot(final String cmd, final Result result) {
         return exec(cmd, result, true);
+    }
+
+    public static String execSynchronizedCommand(String command) {
+        StringBuilder output = new StringBuilder();
+        Process p;
+        try {
+            p = Runtime.getRuntime().exec(command);
+            p.waitFor();
+            BufferedReader reader =
+                    new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                output.append(line + "\n");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return output.toString();
     }
 }
